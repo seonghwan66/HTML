@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>
+		Hello World!
+	</title>
+	</head>
+	<body style="background-color: aliceblue;">
+		<h2>
+			성환의 p1 Project입니다!
+		</h2>
+		<a href="/login">시작</a>&nbsp;&nbsp;&nbsp;
+		<a href="https://www.naver.com" target="_blank" title="네이버로 이동합니다.">NAVER</a><br><hr>
+		성별 : <input type="radio" name="gender" value="man">맨
+		  		 <input type="radio" name="gender" value="woman">워먼<br>
+		식성 : <input type="radio" name="eat habit" value="only meat">고기 only
+				  <input type="radio" name="eat habit" value="only vegetable">채소 only
+				  <input type="radio" name="eat habit" value="anything">뭐든
+				  
+		<h2 style="background-color: yellow; color: gray">HTML 확인문제 8번</h2>
+		안녕하세요, <strong style="background-color: aqua">아이유</strong>입니다.<br>
+		반갑습니다!
+	</body>
+</html>
