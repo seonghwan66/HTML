@@ -1,0 +1,80 @@
+MyController.java
+
+package com.web.p1;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping; /* 이클립스자동import 단축키는Ctrl + Shif+ o */
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class MyController { 
+
+@GetMapping("/")     /* 서버접속첫화면을의미*/
+public String home() {
+	return "home"; /* home.html 파일을 의미. 확장자 생략 가능. static폴더의index.html 보다 controller 코딩이 우선 순위*/
+	}
+
+@GetMapping("/ex01")
+public String ex01() {
+	return "ex01";
+}
+@PostMapping("/ex01/answer")
+public String ex01Answer(String id, String pw, Model mo, Model del) {
+	mo.addAttribute("id", id);
+	del.addAttribute("pw", pw);
+	
+	return "ex01Answer";
+}
+
+}
+------------------------------------------------------------------------------------------------------------------------
+home.html
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<metacharset="UTF-8">
+		<title>Welcome</title>
+	</head>
+	<bodystyle="background-color:lime">
+		<h2>Dooli의p1 Project입니다!!</h2>
+		<a href="/ex01">예제1</a><br>
+		<a href="/ex02">예제2</a><br>
+		<a href="/ex03">예제3</a><br>
+		<a href="/ex04">예제4</a><br>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+ex01.html
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>보내는쪽</title>
+	</head>
+	<body style="background-color:yellow">
+		<form method="post" action="/ex01/answer">
+			아이디 : <input type="text" name="id"><br>
+			비밀번호 : <input type="password" name="pw"><br>
+			<input type="submit" value="확인">
+		</form>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+ex01Answer.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.orf">
+	<head>
+		<meta charset="UTF-8">
+		<title>받는쪽</title>
+	</head>
+	<body style="background-color:aqua">
+		나는<strong th:text="${id}"></strong>의 비번을 알고 있다.<hr>
+		<strong th:text="${pw}"></strong>맞지? 아하하핳!!!
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
