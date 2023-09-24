@@ -1,0 +1,103 @@
+--------------------------------아이디+비번--------------------------------
+package com.web.seonghwan;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+/* 이클립스자동import 단축키는Ctrl + Shif+ o */
+
+@Controller
+public class MyController{
+	
+@GetMapping("/")     /* 서버접속첫화면을의미*/
+public String home() {
+	return "home"; /* home.html 파일을의미. 확장자생략가능*//* static폴더의index.html 보다controller코딩이우선순위*/
+}
+@GetMapping("/ex01")
+public String ex01() {
+	return "ex01";
+}
+@PostMapping("/ex01/answer")
+public String ex01Answer(String id, String pw, Model mo) {
+	mo.addAttribute("id", id);
+	mo.addAttribute("pw", pw);
+	return "ex01Answer";
+}
+} // class
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>보내는쪽</title>
+	</head>
+	<body style="background-color:yellow">
+		<form method="post" action="/ex01/answer">
+			아이디 : <input type="text" name="id"><br>
+			비밀번호 : <input type="password" name="pw"><br>
+			<input type="submit" value="확인">
+		</form>
+	</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.orf">
+	<head>
+		<meta charset="UTF-8">
+		<title>받는 쪽</title>
+	</head>
+	<body style="background-color:aqua">
+		나는<strong th:text="${id}">김성환</strong>의 비번을 알고 있다.<br>
+		<strong th:text="${pw}">123456789</strong>맞지? 아하하핳!!!<br>
+	</body>
+</html>
+
+
+--------------------------------오늘의 명언--------------------------------
+@GetMapping("/wise")
+public String wise() {
+return "wise";
+}
+@PostMapping("/wise/answer")
+public String wiseAnswer(String name, String text, Model mo) {
+mo.addAttribute("name", name);
+mo.addAttribute("text", text);
+return "wiseAnswer";
+}
+
+
+<!DOCTYPE html><html>
+<head><meta charset="UTF-8">
+<title>오늘의 명언</title></head>
+
+<body style="background-color:yellow">
+	<form method="post" action="/wise/answer">
+		위인: <input type="text" name="name"><br><br>
+		명언: <input type="text" size=50 name="text"> <br><br>
+		<input type="submit" value="입력">
+	</form>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head><meta charset="UTF-8">
+<title>오늘의 명언</title></head>
+
+<body style="background-color:aqua">
+	<h2>오늘의 명언</h2>
+	<table border="1"> 
+	<tr>
+	<th>위인<td th:text="${name}">
+	<tr>
+	<th>명언<td th:text="${text}">
+	</table>
+</body>
+</html>
