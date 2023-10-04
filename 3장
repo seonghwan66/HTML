@@ -269,3 +269,223 @@ breadAnswer.html
 		총 가격은 <strong th:text = "${money}">money</strong>원입니다.
 	</body>
 </html>
+------------------------------------------------------------------------------------------------------------------------
+wise.html
+<!DOCTYPE html><html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+<title>오늘의 명언</title></head>
+
+<body style="background-color:yellow">
+	<form method="post" action="/wise/answer">
+		위인: <input type="text" name="name"><br><br>
+		명언: <input type="text" size=50 name="text"> <br><br>
+		<input type="submit" value="입력">
+	</form>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+wiseAnswer.html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head><meta charset="UTF-8">
+<title>오늘의 명언</title></head>
+
+<body style="background-color:aqua">
+	<h2>오늘의 명언</h2>
+	<table border="1"> 
+	<tr>
+	<th>위인<td th:text="${name}">
+	<tr>
+	<th>명언<td th:text="${text}">
+	</table>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+q06.html
+<!DOCTYPE html>
+<html>
+	<head> <meta charset ="UTF-8">
+	<title>원하는 직종</title></head>
+	<body>
+		<h2>선택하세요.</h2>
+		1.<a href = "q06/a"> 대기업</a><br><br>
+		2.<a href = "q06/b"> 공무원</a><br>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+q06a.html
+<!DOCTYPE html>
+<html>
+	<head><meta charset = "UTF-8">
+	<title>기업 선택</title></head>
+	<body style = "background-color:aqua">
+		<form method ="post" action = "/q06/aa">
+		<h2>원하는 기업 두 곳 입력</h2><br>
+		1순위 : <input type="text" name="company1"><br><br>
+		2순위 : <input type="text" name="company2"><br><br>
+		<input type ="submit" value="확인">
+		</form>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+q06aa.html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head><meta charset = "UTF-8">
+	<title th:text = "${company1} +'&'+ ${company2}"></title></head>
+	<style>
+		#company1 {color:blue; font-weight:bold;}
+		#company2 {color:blue; font-weight:bold;}
+	</style>
+	<body>
+		반갑습니다. 조만간 회사에서 만나요!!~! - <span id = "company1" th:text = "${company1}"> company1 </span>  인사팀장-<br><br>
+		아니요! 우리 회사로 꼭 오세요!!~! - <span id = "company2" th:text = "${company2}"> company2 </span>  인사팀장-
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+q06b.html
+<!DOCTYPE html>
+<html>
+	<head><meta charset="UTF-8">
+	<title>분야 선택</title></head>
+	<body style="background-color:yellow">
+		<h2>원하는 분야 선택</h2>
+		<form method="post" action="/q06/bb" >
+			<select name="job">
+				<option>경찰 공무원</option><option>소방 공무원</option>
+				<option>교육 공무원</option><option>구청,동사무소</option>
+			</select>
+			<input type="submit" value="선택">
+		</form>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+q06bb.html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta charset="UTF-8">
+	<title>환영합니다</title></head>
+	<body>
+		축하합니다!<p>
+		<strong th:text="${job}">job</strong> 으로 임용되셨습니다!!<br>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------
+MyController.java
+package com.web.seonghwan;
+
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class MyController{
+@GetMapping("/")
+public String home() {
+return "home";
+} 
+@GetMapping("/ex01")
+public String ex01() {
+return "ex01"; 
+}
+@PostMapping("/ex01/answer")
+public String ex01Answer(String id,String password, Model mo) {
+mo.addAttribute("id", id);
+mo.addAttribute("password",password);
+return "ex01Answer";
+}
+
+@GetMapping("/ex02")
+public String ex02() {
+return "ex02";
+}
+@PostMapping("/ex02/answer")
+public String ex02Answer(String name, String po, Model mo) {
+mo.addAttribute("name", name);
+mo.addAttribute("po", po);
+int salary = 0;
+switch(po){
+case "사원" -> salary = 3500; /* java switch */
+case "대리" -> salary = 5000; 
+case "팀장" -> salary = 7000; 
+case "임원" -> salary = 9900; 
+ }
+mo.addAttribute("salary", salary);
+return "ex02Answer";
+}
+
+@GetMapping("/ex03")
+public String ex03() {
+return "ex03";
+}
+@PostMapping("/ex03/answer")
+public String ex03Answer(String name, String color, Model mo) {
+mo.addAttribute("name", name);
+mo.addAttribute("color", color);
+return "ex03Answer";
+}
+
+@GetMapping("/ex04")
+public String ex04Answer(Model mo) {
+ArrayList<String> arr = new ArrayList<String>();
+arr.add("김성환"); 
+arr.add("손석구");
+arr.add("마동석");
+arr.add("강동원"); 
+/* 지금은 회원정보 하드코딩. 나중에는 database에서 가져옴 */
+mo.addAttribute("arr",arr);
+return "ex04";
+}
+@GetMapping("/wise")
+public String wise() {
+return "wise";
+}
+@PostMapping("/wise/answer")
+public String wiseAnswer(String name, String text, Model mo) {
+mo.addAttribute("name", name);
+mo.addAttribute("text", text);
+return "wiseAnswer";
+}
+@GetMapping("/bread")
+public String bread() {
+return "bread";
+}
+@PostMapping("/bread/answer")
+public String breaAnswer(String name, int price, int count, Model mo) {
+mo.addAttribute("name", name);
+mo.addAttribute("count", count);
+mo.addAttribute("money", price*count);
+return "breadAnswer";
+}
+@GetMapping("/q06")
+public String q06() {
+	return "q06";
+}
+@GetMapping("/q06/a")
+public String q06a() {
+	return "q06a";
+}
+@PostMapping("/q06/aa")
+public String q06aa(String company1, String company2, Model mo) {
+	mo.addAttribute("company1", company1);
+	mo.addAttribute("company2", company2);
+	return "q06aa";
+}
+@GetMapping("/q06/b")
+public String q06b() {
+	return "q06b";
+}
+@PostMapping("/q06/bb")
+public String q06bb(String job, Model mo) {
+	mo.addAttribute("job", job);
+	return "q06bb";
+}
+}
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
