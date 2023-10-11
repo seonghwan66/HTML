@@ -1,0 +1,136 @@
+-----------------------------------------------------
+survey.html
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>설문 조사 시작</title>
+    </head>
+    <body style="background-color: #F1F8E0">
+        <h1>설문 조사</h1>
+        <form action="/player" method="post">
+            아이디 : <input type="text" name="id"><p>
+            <input type="submit" value="확인">
+        </form><p>
+    </body>
+</html>
+-----------------------------------------------------
+player.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+    <title>Best Player Of the Year</title>
+</head>
+<body style="background-color:orange">
+    <h1>22-23시즌 최고의 선수</h1>
+    <form action="/team" method="post">
+    <input type="radio" name="player" value="CR7">호날두<br>
+    <input type="radio" name="player" value="Haaland">홀란드<br>
+    <input type="radio" name="player" value="Messi">메시<br>
+    <input type="radio" name="player" value="Son">손흥민<br><br>
+    <input type="submit" value="선택">
+    </form>
+</body>
+</html>
+-----------------------------------------------------
+team.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+    <title>Best Team Of the Year</title>
+</head>
+<body style="background-color:skyblue">
+    <h1>23-24시즌 챔피언스리그 우승</h1>
+    <form action="/thanks" method="post">
+        <select name="team">
+            <option>Bayern Munich</option>
+            <option>Real Madrid</option>
+            <option>Manchester City</option>
+            <option>Liverpool</option>
+        </select>
+        <input type="submit" value="선택">
+    </form>
+</body>
+</html>
+-----------------------------------------------------
+thanks.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+    <title>Thank You!</title>
+</head>
+	<style>
+	    h1{background-color: pink; color:blue};
+	    a{background-color: pink; color:blue;}
+	</style>
+	<body style="background-color:#F781F3">
+ 	   <h2>설문에 응해주셔서 감사합니다!</h2>
+    	<a href="/result">결과 보기</a>
+	</body>
+</html>
+-----------------------------------------------------
+result.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+    <title>설문 결과</title>
+</head>
+<style>
+    #id {color: blue}
+</style>
+<body style="background-color:#00FFBF">
+    <strong id="id" th:text="${id}">id</strong>님은<br>
+    <strong th:text="${player}">Salah</strong> 선수와<br>
+    <strong th:text="${team}">Liverpool FC</strong>을 선택하셨습니다!<br>
+</body>
+</html>
+-----------------------------------------------------
+SurveyController.html
+
+package com.web.p5;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class SurveyController {
+
+    @GetMapping("/survey")
+    public String survey() {
+        return "survey";
+    }
+
+    @PostMapping("/player")
+    public String player(HttpSession se, String id) {
+        se.setAttribute("id", id);
+        return "player";
+    }
+
+    @PostMapping("/team")
+    public String team(HttpSession se, String player) {
+        se.setAttribute("player", player);
+        return "team";
+    }
+    @PostMapping("/thanks")
+    public String thanks(HttpSession se, String team) {
+    	se.setAttribute("team", team);
+        return "thanks";
+    }
+    @GetMapping("/result")
+    public String result(HttpSession se, String id, String player, String team, Model mo) {
+    	
+    	mo.addAttribute("id", se.getAttribute("id"));
+    	mo.addAttribute("player", se.getAttribute("player"));
+    	mo.addAttribute("team", se.getAttribute("team"));
+
+        return "result";
+    }
+}
