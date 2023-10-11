@@ -1,3 +1,99 @@
+create table product(
+	number int not null primary key,
+	id varchar(20) not null,
+	product varchar(20) not null,
+	quantity int not null,
+	date datetime not null
+);
+
+insert into product values
+	(1, '김성환', '애플', 5, now()),
+	(2, '조준혁', '성환', 5, now()),
+	(3, '김민서', '펩시', 3, now()),
+	(4, '동아대', '부산', 2, now());
+-------------------------------------------------
+productList.html
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head><meta charset="UTF-8">
+	<title>ProdUct</title></head>
+	<style>
+		body {background-color:skyblue;}
+		table {width: 600px;}
+		#td1 { color:blue; font-weight:bold;}
+		#td2 {color:red; text-align:right;}
+	</style>
+	<body>
+		<div align="center">
+		<h3> Product</h3>
+		<table border="1">
+			<tr> <th>number <th>id <th>product <th>quantity <th>time</tr>
+				<tr th:each="a:${arr}">
+					<td th:text="${a.number}" id="td1">number
+					<td th:text="${a.id}">id
+					<td th:text="${a.product}">product
+					<td th:text="${a.quantity}" id="td2">quantity
+					<td th:text="${a.date}">date</tr>
+		</table><br>
+	</div></body>
+</html>
+-------------------------------------------------
+product.java
+
+package com.web.p5;
+
+import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class product {
+	@Id
+	public Integer number;
+	public String id;
+	public String product;
+	public Integer quantity;
+	
+	@CreationTimestamp public LocalDateTime date;
+}
+-------------------------------------------------
+productRep.java
+
+package com.web.p5;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface productRep extends JpaRepository<product, Integer> {}
+-------------------------------------------------
+VanController1.java
+
+package com.web.p5;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class VanController1 {
+	@Autowired
+	private productRep prep;
+	
+	@GetMapping("/product/list")
+	public String productList(Model mo) {
+	List<product> arr= prep.findAll();
+	mo.addAttribute("arr",arr);
+	return "productList";
+	}
+}
+-------------------------------------------------
+
+
 -----------------------------------------------------
 survey.html
 
