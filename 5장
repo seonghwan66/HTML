@@ -12,32 +12,35 @@ insert into product values
 	(3, '김민서', '펩시', 3, now()),
 	(4, '동아대', '부산', 2, now());
 -------------------------------------------------
-productList.html
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head><meta charset="UTF-8">
-	<title>ProdUct</title></head>
+<!DOCTYPE html> <!-- HTML5 문서 유형을 선언합니다. -->
+<html xmlns:th="http://www.thymeleaf.org"> <!-- Thymeleaf 템플릿 엔진을 사용하기 위한 XML 네임스페이스를 정의합니다. -->
+	<head>
+		<meta charset="UTF-8"> <!-- 문서의 문자 인코딩을 UTF-8로 설정합니다. -->
+		<title>ProdUct</title> <!-- 웹 페이지의 제목을 설정합니다. -->
+	</head>
 	<style>
-		body {background-color:skyblue;}
-		table {width: 600px;}
-		#td1 { color:blue; font-weight:bold;}
-		#td2 {color:red; text-align:right;}
+		body {background-color:skyblue;} <!-- body 요소의 배경색을 하늘색으로 설정합니다. -->
+		table {width: 600px;} <!-- 표의 너비를 600px로 설정합니다. -->
+		#td1 { color:blue; font-weight:bold; } <!-- id 속성이 "td1"인 요소들의 글자색을 파란색으로, 글자 굵기를 두꺼운체로 설정합니다. -->
+		#td2 {color:red; text-align:right;} <!-- id 속성이 "td2"인 요소들의 글자색을 빨간색으로, 텍스트 정렬을 오른쪽으로 설정합니다. -->
 	</style>
 	<body>
-		<div align="center">
-		<h3> Product</h3>
-		<table border="1">
-			<tr> <th>number <th>id <th>product <th>quantity <th>time</tr>
-				<tr th:each="a:${arr}">
-					<td th:text="${a.number}" id="td1">number
-					<td th:text="${a.id}">id
-					<td th:text="${a.product}">product
-					<td th:text="${a.quantity}" id="td2">quantity
-					<td th:text="${a.date}">date</tr>
-		</table><br>
-	</div></body>
+		<div align="center"> <!-- div 요소를 가운데 정렬합니다. -->
+		<h3> Product</h3> <!-- 제목을 표시하는 h3 요소로 "Product"라는 텍스트를 표시합니다. -->
+		<table border="1"> <!-- 경계가 있는 표를 생성합니다. -->
+			<tr> <th>number <th>id <th>product <th>quantity <th>time</tr> <!-- 표의 행(헤더)를 생성합니다. -->
+				<tr th:each="a:${arr}"> <!-- Thymeleaf를 사용하여 데이터 배열(arr)을 반복하면서 표의 각 행을 생성합니다. -->
+					<td th:text="${a.number}" id="td1">number <!-- 데이터 배열의 'number' 값을 출력하고, id 속성이 "td1"인 요소로부터 스타일을 상속합니다. -->
+					<td th:text="${a.id}">id <!-- 데이터 배열의 'id' 값을 출력합니다. -->
+					<td th:text="${a.product}">product <!-- 데이터 배열의 'product' 값을 출력합니다. -->
+					<td th:text="${a.quantity}" id="td2">quantity <!-- 데이터 배열의 'quantity' 값을 출력하고, id 속성이 "td2"인 요소로부터 스타일을 상속합니다. -->
+					<td th:text="${a.date}">date <!-- 데이터 배열의 'date' 값을 출력합니다. -->
+				</tr>
+		</table><br> <!-- 표의 생성이 끝나고 줄 바꿈을 수행합니다. -->
+	</div>
+</body>
 </html>
+
 -------------------------------------------------
 product.java
 
