@@ -46,20 +46,21 @@ product.java
 
 package com.web.p5;
 
-import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import java.time.LocalDateTime; // Java 8부터 도입된 LocalDateTime 클래스를 사용하기 위한 import 문입니다.
+import org.hibernate.annotations.CreationTimestamp; // Hibernate 라이브러리에서 제공하는 @CreationTimestamp 어노테이션을 사용하기 위한 import 문입니다.
+import jakarta.persistence.Entity; // JPA(Java Persistence API)에서 엔티티 클래스임을 표시하기 위한 import 문입니다.
+import jakarta.persistence.Id; // 엔티티 클래스의 기본 키(primary key)를 나타내는 필드에 사용되는 import 문입니다.
 
-@Entity
+@Entity // 이 클래스가 JPA 엔티티임을 선언합니다.
 public class product {
-	@Id
-	public Integer number;
-	public String id;
-	public String product;
-	public Integer quantity;
-	
-	@CreationTimestamp public LocalDateTime date;
+	@Id // 'number' 필드가 이 엔티티의 기본 키(primary key)임을 나타냅니다.
+	public Integer number; // 상품 번호를 나타내는 필드로, 기본 키이기 때문에 고유한 값을 가져야 합니다.
+	public String id; // 상품을 등록한 사용자의 아이디를 나타내는 필드입니다.
+	public String product; // 상품의 이름이나 설명을 나타내는 필드입니다.
+	public Integer quantity; // 상품의 수량을 나타내는 필드입니다.
+
+	@CreationTimestamp // 'date' 필드에 @CreationTimestamp 어노테이션을 사용하여, 데이터가 생성될 때 자동으로 생성 날짜 및 시간이 기록됩니다.
+	public LocalDateTime date; // 상품 데이터가 생성된 날짜와 시간을 나타내는 필드입니다.
 }
 -------------------------------------------------
 productRep.java
