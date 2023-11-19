@@ -1,0 +1,116 @@
+mysql> create table memo (
+    -> no int not null auto_increment primary key,
+    -> title varchar(50) not null,
+    -> content varchar(200) not null,
+    -> wdate datetime not null
+    -> );
+
+mysql> insert into memo values(1, '시작', '앞으로 여기 메모를 등록할 예정입니다.', now());
+
+
+package com.web.p7;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+public class MemoController {
+	
+	 @Autowired
+     private MemoRepository memorep;
+
+	 @GetMapping("/memo")
+     public String memo() {
+       return "memo";
+     }
+     
+     @GetMapping("/memo/list")
+     public String memberList(Model mo) {
+    	 mo.addAttribute("arr", memorep.findAll());
+    	 return "memoList";
+     }
+     
+     @GetMapping("/memoPopup")
+     public String popup(String msg, String url, Model mo) {
+    	 mo.addAttribute("msg", msg);
+    	 mo.addAttribute("url", url);
+    	 return "memoPopup";
+     }
+     
+     @GetMapping("/memo/insert")
+     public String memoInsert(String title, String content, RedirectAttributes re) {
+    	 
+    	 Memo memo = new Memo();
+    	 memo.title = title; memo.content = content;
+    	 memorep.save(memo);
+    	 
+   		 re.addAttribute("msg", "잘 저장되었습니다!");
+    	 re.addAttribute("url", "/memo/list");
+    	 return "redirect:/memoPopup";
+     }
+}
+
+
+------------------memo.html------------------
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head><meta charset="UTF-8">
+	<title>Memo</title></head>
+	<style>
+		body {background-color:rgb(200,200,30);}
+	</style>
+	<body>
+	<form method="get" action="/memo/insert">
+	<h3>자유롭게 작성하기</h3>
+		제목 : <input type="text" name="title"><p>
+		내용 : <br>
+		<textarea name="content" rows="4" cols="40"></textarea><p>
+		<button>저장</button>
+	</form>
+	</body>
+</html>
+
+------------------memoList.html------------------
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head><meta charset="UTF-8">
+	<title>회원리스트</title></head>
+	<style>
+		body {background-color:aqua;}
+		table {width: 600px;}
+		.td1 { color:blue; }
+	</style>
+	<body>
+		<div align="center">
+		<h3> 나의 메모 리스트 </h3>
+		<table border="1">
+			<tr> <th>no <th>제목 <th>내용 <th>작성일
+				<tr th:each="a:${arr}">
+					<td th:text="${a.no}">
+					<td th:text="${a.title}" class="td1">title
+					<td th:text="${a.content}">content
+					<td th:text="${a.wdate}">wdate
+		</table><br>
+		<a href="/memo">작성화면으로 돌아가기</a>
+		</div>
+	</body>
+</html>
+
+------------------memoPopup.html ------------------
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8">
+<title>안내글</title>
+</head>
+<body>
+	<script th:inline="javascript">
+		let m = [[${msg}]];
+		let u = [[${url}]];
+		alert(m);
+	    location.href = u;
+	</script>
+</body>
+</html>
